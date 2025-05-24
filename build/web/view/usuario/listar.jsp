@@ -25,7 +25,7 @@
         </tr>
         <%
             List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
-            if (usuarios != null) {
+            if (usuarios != null && !usuarios.isEmpty()) {
                 for (Usuario u : usuarios) {
         %>
         <tr>
@@ -36,6 +36,12 @@
             <td><%= u.getEndereco() %></td>
             <td><%= u.getTipoUsuario() %></td>
             <td><%= u.getDataCadastro() %></td>
+            <td>
+                <a href="<%= request.getContextPath() %>/usuario/editar?id=<%= u.getId() %>">Editar</a> |
+                <a href="<%= request.getContextPath() %>/usuario/excluir?id=<%= u.getId() %>" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+            </td>
+
+
         </tr>
         <%      }
             } else {
@@ -45,6 +51,6 @@
     </table>
 
     <br/>
-    <a href="./cadastro.jsp">Cadastrar novo usuário</a>
+    <a href="<%= request.getContextPath() %>/view/usuario/cadastro.jsp">Cadastrar novo usuário</a>
 </body>
 </html>
