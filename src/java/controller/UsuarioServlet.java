@@ -24,7 +24,7 @@ public class UsuarioServlet extends HttpServlet {
         String telefone = request.getParameter("telefone");
         String endereco = request.getParameter("endereco");
         String tipoUsuario = request.getParameter("tipoUsuario");
-
+        
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setEmail(email);

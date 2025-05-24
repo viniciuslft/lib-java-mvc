@@ -17,6 +17,20 @@
 </head>
 <body>
     <h2>Livros Cadastrados</h2>
+    
+    <form action="<%= request.getContextPath() %>/livro" method="get">
+        <input type="hidden" name="acao" value="buscar" />
+        <label>Buscar por título, autor ou categoria:</label>
+        <input type="text" name="termo" value="<%= request.getAttribute("termoBuscado") != null ? request.getAttribute("termoBuscado") : "" %>" />
+        <input type="submit" value="Buscar" />
+        <a href="<%= request.getContextPath() %>/livro?acao=listar">Limpar</a>
+    </form>
+
+    <br/>
+    
+    <a href="<%= request.getContextPath() %>/livro?acao=disponiveis">Ver apenas disponíveis</a>
+    
+    <br/>
 
     <table>
         <tr>

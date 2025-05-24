@@ -12,6 +12,15 @@
 </head>
 <body>
     <h2>Usuários Cadastrados</h2>
+    
+    <form action="<%= request.getContextPath() %>/usuario/listar" method="get">
+        <label>Buscar por nome:</label>
+        <input type="text" name="nome" value="<%= request.getAttribute("nomeBuscado") != null ? request.getAttribute("nomeBuscado") : "" %>">
+        <input type="submit" value="Buscar">
+        <a href="<%= request.getContextPath() %>/usuario/listar">Limpar</a>
+    </form>
+    
+    <br/>
 
     <table border="1" cellpadding="5">
         <tr>
@@ -39,6 +48,7 @@
             <td>
                 <a href="<%= request.getContextPath() %>/usuario/editar?id=<%= u.getId() %>">Editar</a> |
                 <a href="<%= request.getContextPath() %>/usuario/excluir?id=<%= u.getId() %>" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+                <a href="<%= request.getContextPath() %>/usuario/emprestimos?id=<%= u.getId() %>">Ver empréstimos</a>
             </td>
 
 

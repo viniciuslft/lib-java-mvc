@@ -55,6 +55,33 @@ public class EmprestimoDAO {
         conn.close();
         return lista;
     }
+    
+    public List<Emprestimo> listarPorUsuario(int idUsuario) throws SQLException {
+        List<Emprestimo> lista = new ArrayList<>();
+        Connection conn = ConnectionFactory.getConnection();
+        String sql = "SELECT * FROM emprestimos WHERE id_usuario = ? ORDER BY data_emprestimo DESC";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, idUsuario);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Emprestimo e = new Emprestimo();
+            e.setId(rs.getInt("id"));
+            e.setIdUsuario(rs.getInt("id_usuario"));
+            e.setIdLivro(rs.getInt("id_livro"));
+            e.setDataEmprestimo(rs.getDate("data_emprestimo"));
+            e.setDataDevolucaoPrevista(rs.getDate("data_devolucao_prevista"));
+            e.setDataDevolucaoReal(rs.getDate("data_devolucao_real"));
+            e.setStatus(rs.getString("status"));
+            lista.add(e);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+        return lista;
+    }
+
 
     public void registrarDevolucao(int id, Date dataDevolucao) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();
@@ -75,5 +102,16 @@ public class EmprestimoDAO {
         stmt.close();
         conn.close();
     }
+    
+    public void renovar(int id) throws SQLException {
+        Connection conn = ConnectionFactory.getConnection();
+        String sql = "UPDATE emprestimos SET data_devolucao_prevista = DATE_ADD(data_devolucao_prevista, INTERVAL 7 DAY) WHERE id = ? AND status = 'ATIVO'";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, id);
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+    }
+
 }
 

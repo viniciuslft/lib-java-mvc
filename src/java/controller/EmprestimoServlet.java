@@ -10,6 +10,8 @@
 package controller;
 
 import dao.EmprestimoDAO;
+import dao.UsuarioDAO;
+import dao.LivroDAO;
 import model.Emprestimo;
 
 import jakarta.servlet.ServletException;
@@ -38,6 +40,24 @@ public class EmprestimoServlet extends HttpServlet {
                 dao.registrarDevolucao(id, new java.sql.Date(System.currentTimeMillis()));
                 response.sendRedirect("emprestimo?acao=listar");
 
+            } else if ("renovar".equals(acao)) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                dao.renovar(id);
+                response.sendRedirect("emprestimo?acao=listar");
+            } else if ("novo".equals(acao)) {
+                try {
+                    UsuarioDAO usuarioDAO = new UsuarioDAO();
+                    LivroDAO livroDAO = new LivroDAO();
+
+                    request.setAttribute("usuarios", usuarioDAO.listarTodos());
+                    request.setAttribute("livros", livroDAO.listarDisponiveis());
+
+                    request.getRequestDispatcher("/view/emprestimo/registrar.jsp").forward(request, response);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    response.sendRedirect("view/emprestimo/erro.jsp");
+                }
             } else {
                 dao.atualizarStatusAtrasado(); // Atualiza empréstimos vencidos
                 List<Emprestimo> lista = dao.listarTodos();
