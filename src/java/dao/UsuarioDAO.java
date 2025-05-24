@@ -71,6 +71,34 @@ public class UsuarioDAO {
         conn.close();
         return u;
     }
+    
+    public List<Usuario> buscarPorNome(String nome) throws SQLException {
+        List<Usuario> lista = new ArrayList<>();
+        Connection conn = ConnectionFactory.getConnection();
+        String sql = "SELECT * FROM usuarios WHERE nome LIKE ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, "%" + nome + "%");
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Usuario u = new Usuario();
+            u.setId(rs.getInt("id"));
+            u.setNome(rs.getString("nome"));
+            u.setEmail(rs.getString("email"));
+            u.setTelefone(rs.getString("telefone"));
+            u.setEndereco(rs.getString("endereco"));
+            u.setTipoUsuario(rs.getString("tipo_usuario"));
+            u.setDataCadastro(rs.getDate("data_cadastro"));
+            lista.add(u);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return lista;
+    }
+
 
     public void atualizar(Usuario u) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();

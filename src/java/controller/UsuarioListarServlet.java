@@ -25,11 +25,21 @@ public class UsuarioListarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String nomeBusca = request.getParameter("nome");
+
         try {
             UsuarioDAO dao = new UsuarioDAO();
-            List<Usuario> usuarios = dao.listarTodos();
+            List<Usuario> usuarios;
+
+            if (nomeBusca != null && !nomeBusca.trim().isEmpty()) {
+                usuarios = dao.buscarPorNome(nomeBusca);
+            } else {
+                usuarios = dao.listarTodos();
+            }
 
             request.setAttribute("usuarios", usuarios);
+            request.setAttribute("nomeBuscado", nomeBusca);
             request.getRequestDispatcher("/view/usuario/listar.jsp").forward(request, response);
 
         } catch (SQLException e) {
