@@ -44,6 +44,7 @@
             <td>
                 <% if ("ATIVO".equals(e.getStatus())) { %>
                     <a href="<%= request.getContextPath() %>/emprestimo?acao=devolver&id=<%= e.getId() %>" onclick="return confirm('Confirmar devolução?');">Devolver</a>
+                    <a href="<%= request.getContextPath() %>/emprestimo?acao=renovar&id=<%= e.getId() %>" onclick="return confirm('Renovar empréstimo por +7 dias?');">Renovar</a>
                 <% } else { %>
                     -
                 <% } %>
@@ -57,6 +58,6 @@
     </table>
 
     <br/>
-    <a href="<%= request.getContextPath() %>/view/emprestimo/registrar.jsp">Registrar novo empréstimo</a>
+    <a href="<%= request.getContextPath() %>/emprestimo?acao=novo">Registrar novo empréstimo</a>
 </body>
 </html>

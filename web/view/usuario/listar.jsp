@@ -48,6 +48,7 @@
             <td>
                 <a href="<%= request.getContextPath() %>/usuario/editar?id=<%= u.getId() %>">Editar</a> |
                 <a href="<%= request.getContextPath() %>/usuario/excluir?id=<%= u.getId() %>" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+                <a href="<%= request.getContextPath() %>/usuario/emprestimos?id=<%= u.getId() %>">Ver empréstimos</a>
             </td>
 
 

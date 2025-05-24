@@ -88,6 +88,66 @@ public class LivroDAO {
         conn.close();
         return l;
     }
+    
+    public List<Livro> buscar(String termo) throws SQLException {
+        List<Livro> lista = new ArrayList<>();
+        Connection conn = ConnectionFactory.getConnection();
+        String sql = "SELECT * FROM livros WHERE titulo LIKE ? OR autor LIKE ? OR categoria LIKE ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        String likeTerm = "%" + termo + "%";
+        stmt.setString(1, likeTerm);
+        stmt.setString(2, likeTerm);
+        stmt.setString(3, likeTerm);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Livro l = new Livro();
+            l.setId(rs.getInt("id"));
+            l.setTitulo(rs.getString("titulo"));
+            l.setAutor(rs.getString("autor"));
+            l.setEditora(rs.getString("editora"));
+            l.setAnoPublicacao(rs.getInt("ano_publicacao"));
+            l.setIsbn(rs.getString("isbn"));
+            l.setQuantidadeDisponivel(rs.getInt("quantidade_disponivel"));
+            l.setCategoria(rs.getString("categoria"));
+            l.setDescricao(rs.getString("descricao"));
+            lista.add(l);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+        return lista;
+    }
+    
+    public List<Livro> listarDisponiveis() throws SQLException {
+        List<Livro> lista = new ArrayList<>();
+        Connection conn = ConnectionFactory.getConnection();
+        String sql = "SELECT * FROM livros WHERE quantidade_disponivel > 0 ORDER BY titulo";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Livro l = new Livro();
+            l.setId(rs.getInt("id"));
+            l.setTitulo(rs.getString("titulo"));
+            l.setAutor(rs.getString("autor"));
+            l.setEditora(rs.getString("editora"));
+            l.setAnoPublicacao(rs.getInt("ano_publicacao"));
+            l.setIsbn(rs.getString("isbn"));
+            l.setQuantidadeDisponivel(rs.getInt("quantidade_disponivel"));
+            l.setCategoria(rs.getString("categoria"));
+            l.setDescricao(rs.getString("descricao"));
+            lista.add(l);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+        return lista;
+    }
+
+
 
     public void atualizar(Livro l) throws SQLException {
         Connection conn = ConnectionFactory.getConnection();

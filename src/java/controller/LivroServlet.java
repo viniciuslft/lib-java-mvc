@@ -43,7 +43,18 @@ public class LivroServlet extends HttpServlet {
                 dao.excluir(id);
                 response.sendRedirect("livro?acao=listar");
 
-            } else { // listar padrão
+            } else if ("buscar".equals(acao)) {
+                String termo = request.getParameter("termo");
+                List<Livro> livros = dao.buscar(termo);
+                request.setAttribute("livros", livros);
+                request.setAttribute("termoBuscado", termo);
+                request.getRequestDispatcher("/view/livro/listar.jsp").forward(request, response);
+
+            } else if ("disponiveis".equals(acao)) {
+                List<Livro> livros = dao.listarDisponiveis();
+                request.setAttribute("livros", livros);
+                request.getRequestDispatcher("/view/livro/listar.jsp").forward(request, response);
+            } else {
                 List<Livro> lista = dao.listarTodos();
                 request.setAttribute("livros", lista);
                 request.getRequestDispatcher("/view/livro/listar.jsp").forward(request, response);
