@@ -5,7 +5,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*, model.Usuario" %>
+<%@ page import="java.util.*, model.Usuario, java.text.SimpleDateFormat" %>
 <%@ include file="../components/header.jsp" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -48,6 +48,7 @@
             </thead>
             <tbody>
             <%
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
                 if (usuarios != null && !usuarios.isEmpty()) {
                     for (Usuario u : usuarios) {
@@ -59,7 +60,7 @@
                     <td><%= u.getTelefone() %></td>
                     <td><%= u.getEndereco() %></td>
                     <td><%= u.getTipoUsuario() %></td>
-                    <td><%= u.getDataCadastro() %></td>
+                    <td><%= sdf.format(u.getDataCadastro()) %></td>
                     <td>
                         <a class="btn btn-sm btn-warning" href="<%= request.getContextPath() %>/usuario/editar?id=<%= u.getId() %>">
                             <i class="fas fa-pen"></i> Editar

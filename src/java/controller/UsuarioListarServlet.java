@@ -44,7 +44,8 @@ public class UsuarioListarServlet extends HttpServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("/view/usuario/erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao listar usuários.");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
         }
     }
 }

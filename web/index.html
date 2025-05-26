@@ -11,10 +11,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-a..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-light">
+    <div class="text-white p-3 mb-4 d-flex align-items-center justify-content-between" style="background: #164193;">
+        <div class="text-white d-flex align-items-center gap-3">
+            <img src="view/assets/claretiano-logo.png" alt="Logo Claretiano" height="40">
+            <h4 class="m-0">Claretiano - Sistema de Biblioteca</h4>
+        </div>
+        <button class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal">
+            <i class="fas fa-circle-info"></i>
+        </button>
+    </div>
 
-    <div style="background-color: #0d6efd; color: white; padding: 16px; display: flex; align-items: center; gap: 16px;">
-        <img src="view/assets/claretiano-logo.png" alt="Logo Claretiano" height="40">
-        <h4 style="margin: 0;">Claretiano - Sistema de Biblioteca</h4>
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="infoModalLabel">Informações do Projeto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+            <p><strong>Disciplina:</strong> Desenvolvimento Web com Java</p>
+            <p><strong>Projeto:</strong> Sistema de Gerenciamento de Biblioteca</p>
+            <p><strong>Aluno:</strong> Vinicius</p>
+            <p><strong>Professor:</strong> Pablo Rodrigues</p>
+            <p>Este sistema foi desenvolvido como atividade prática acadêmica utilizando Java, JSP, Servlets e Bootstrap com padrão MVC.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        </div>
+        </div>
+    </div>
     </div>
 
     <div class="container py-5">
@@ -25,7 +50,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <a href="usuario/listar" class="btn btn-primary"><i class="fas fa-user"></i> Gerenciar Usuários</a>
             <a href="livro?acao=listar" class="btn btn-secondary"><i class="fas fa-book-open"></i> Gerenciar Livros</a>
             <a href="emprestimo?acao=listar" class="btn btn-success"><i class="fas fa-hand-holding-book"></i> Gerenciar Empréstimos</a>
-            <a href="emprestimo?acao=novo" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Registrar Novo Empréstimo</a>
         </div>
     </div>
 
