@@ -4,7 +4,7 @@
     Author     : Vinicius
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.*, model.Emprestimo" %>
+<%@ page import="java.util.*, model.Emprestimo, java.text.SimpleDateFormat" %>
 <%@ include file="../components/header.jsp" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -35,6 +35,7 @@
             </thead>
             <tbody>
             <%
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 List<Emprestimo> emprestimos = (List<Emprestimo>) request.getAttribute("emprestimos");
                 if (emprestimos != null && !emprestimos.isEmpty()) {
                     for (Emprestimo e : emprestimos) {
@@ -43,9 +44,9 @@
                     <td><%= e.getId() %></td>
                     <td><%= e.getIdUsuario() %></td>
                     <td><%= e.getIdLivro() %></td>
-                    <td><%= e.getDataEmprestimo() %></td>
-                    <td><%= e.getDataDevolucaoPrevista() %></td>
-                    <td><%= e.getDataDevolucaoReal() != null ? e.getDataDevolucaoReal() : "-" %></td>
+                    <td><%= sdf.format(e.getDataEmprestimo()) %></td>
+                    <td><%= sdf.format(e.getDataDevolucaoPrevista()) %></td>
+                    <td><%= e.getDataDevolucaoReal() != null ? sdf.format(e.getDataDevolucaoReal()) : "-" %></td>
                     <td><%= e.getStatus() %></td>
                     <td>
                         <% if ("ATIVO".equals(e.getStatus())) { %>

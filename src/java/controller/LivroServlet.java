@@ -40,8 +40,16 @@ public class LivroServlet extends HttpServlet {
 
             } else if ("excluir".equals(acao)) {
                 int id = Integer.parseInt(request.getParameter("id"));
-                dao.excluir(id);
-                response.sendRedirect("livro?acao=listar");
+                try {
+                    dao.excluir(id);
+                    response.sendRedirect("livro?acao=listar");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    request.setAttribute("mensagemErro", "Não foi possível excluir o livro. Ele pode estar vinculado a um ou mais empréstimos.");
+                    request.setAttribute("destinoVoltar", request.getContextPath() + "/livro?acao=listar");
+                    request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
+                }
+
 
             } else if ("buscar".equals(acao)) {
                 String termo = request.getParameter("termo");
@@ -62,7 +70,10 @@ public class LivroServlet extends HttpServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("view/livro/erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao processar o livro. Verifique os dados e tente novamente.");
+            request.setAttribute("destinoVoltar", request.getContextPath() + "/livro?acao=listar");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
+
         }
     }
 
@@ -96,7 +107,9 @@ public class LivroServlet extends HttpServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("view/livro/erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao salvar o livro. Verifique os dados informados.");
+            request.setAttribute("destinoVoltar", request.getContextPath() + "/livro?acao=listar");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
         }
     }
 }

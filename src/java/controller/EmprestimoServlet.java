@@ -56,7 +56,9 @@ public class EmprestimoServlet extends HttpServlet {
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    response.sendRedirect("view/emprestimo/erro.jsp");
+                    request.setAttribute("mensagemErro", "Erro ao processar o empréstimo. Tente novamente.");
+                    request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
+
                 }
             } else {
                 dao.atualizarStatusAtrasado(); // Atualiza empréstimos vencidos
@@ -67,7 +69,9 @@ public class EmprestimoServlet extends HttpServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("view/emprestimo/erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao processar o empréstimo. Tente novamente.");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
+
         }
     }
 
@@ -93,7 +97,9 @@ public class EmprestimoServlet extends HttpServlet {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            response.sendRedirect("view/emprestimo/erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao registrar empréstimo.");
+            request.setAttribute("destinoVoltar", request.getContextPath() + "/emprestimo?acao=listar");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
         }
     }
 }

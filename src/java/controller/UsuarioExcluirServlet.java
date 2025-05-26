@@ -30,7 +30,9 @@ public class UsuarioExcluirServlet extends HttpServlet {
             response.sendRedirect("listar");
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("erro.jsp");
+            request.setAttribute("mensagemErro", "Não foi possível excluir o usuário. Ele pode estar vinculado a um ou mais empréstimos.");
+            request.setAttribute("destinoVoltar", request.getContextPath() + "/usuario/listar");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
         }
     }
 }

@@ -23,8 +23,7 @@ import java.sql.SQLException;
 @WebServlet("/usuario/editar")
 public class UsuarioEditarServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));
 
@@ -34,14 +33,14 @@ public class UsuarioEditarServlet extends HttpServlet {
             request.getRequestDispatcher("/view/usuario/editar.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao buscar dados do usuário para edição.");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
         }
+        
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Usuario u = new Usuario();
         u.setId(Integer.parseInt(request.getParameter("id")));
         u.setNome(request.getParameter("nome"));
@@ -55,7 +54,9 @@ public class UsuarioEditarServlet extends HttpServlet {
             response.sendRedirect("listar");
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao atualizar dados do usuário.");
+            request.setAttribute("destinoVoltar", request.getContextPath() + "/usuario/listar");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
         }
     }
 }

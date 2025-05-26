@@ -36,7 +36,9 @@ public class EmprestimosPorUsuarioServlet extends HttpServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("/view/emprestimo/erro.jsp");
+            request.setAttribute("mensagemErro", "Erro ao buscar empréstimos do usuário.");
+            request.setAttribute("destinoVoltar", request.getContextPath() + "/emprestimo?acao=listar");
+            request.getRequestDispatcher("/view/erro.jsp").forward(request, response);
         }
     }
 }
