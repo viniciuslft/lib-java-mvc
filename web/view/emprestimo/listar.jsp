@@ -12,80 +12,175 @@
     <meta charset="UTF-8">
     <title>Lista de Empréstimos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/view/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 </head>
-<body class="bg-light">
 
-<div class="container mt-5">
-    <h2 class="mb-4"><i class="fas fa-book"></i> Empréstimos Registrados</h2>
+<body>
+<div class="main-container">
+    <div class="windows-explorer">
+        <header class="windows-header" style="padding-right: 3px;">
+            <span>Lista de Empréstimos</span>
+            <button class="windows-button" style="padding:0; height:16px;width:16px;position:relative;">
+                <img src="<%= request.getContextPath() %>/view/assets/icons/close-icon.png" alt="" style="position:absolute;left:1px;top:0px;">
+            </button>
+            <button class="windows-button" style="padding:0; height:16px;width:16px;position:relative;margin-right:3px;">
+                <img src="<%= request.getContextPath() %>/view/assets/icons/question-icon.png" alt="" style="position:absolute;left:1px;top:0px;">
+            </button>
+        </header>
+        <div class="windows-explorer-content">
+            <div class="icon-wrap">
+                <div class="icone-outer-container">
+                    <div class="icon-inner-container" style="text-align: center;">
+                        <div class="icon-layout">
+                            <div class="icon-sidebar">
+                                <h2><img src="<%= request.getContextPath() %>/view/assets/icons/time_and_date-2.png" alt="" width="32" height="32"><br>Empréstimos</h2>
+                                <p class="LogoLine"><img src="https://98.js.org/src/WEB//wvline.gif" width="100%" height="1px"></p>
+                                <p>Acompanhe todos os<br>empréstimos registrados.</p>
+                            </div>
+                            <div class="icon-main">
+                                <table class="win98-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>ID Usuário</th>
+                                            <th>ID Livro</th>
+                                            <th>Data Empréstimo</th>
+                                            <th>Devolução Prevista</th>
+                                            <th>Devolução Real</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%
+                                            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                            List<Emprestimo> emprestimos = (List<Emprestimo>) request.getAttribute("emprestimos");
+                                            if (emprestimos != null && !emprestimos.isEmpty()) {
+                                                for (Emprestimo e : emprestimos) {
+                                        %>
+                                            <tr>
+                                                <td><%= e.getId() %></td>
+                                                <td><%= e.getIdUsuario() %></td>
+                                                <td><%= e.getIdLivro() %></td>
+                                                <td><%= sdf.format(e.getDataEmprestimo()) %></td>
+                                                <td><%= sdf.format(e.getDataDevolucaoPrevista()) %></td>
+                                                <td><%= e.getDataDevolucaoReal() != null ? sdf.format(e.getDataDevolucaoReal()) : "-" %></td>
+                                                <td><%= e.getStatus() %></td>
+                                                <td>
+                                                    <% if ("ATIVO".equals(e.getStatus())) { %>
+                                                        <a href="<%= request.getContextPath() %>/emprestimo?acao=devolver&id=<%= e.getId() %>"
+                                                           class="win98-button" onclick="return confirm('Confirmar devolução?');">
+                                                            <img src="<%= request.getContextPath() %>/view/assets/icons/msg_warning-2.png" alt="Devolver" width="16" height="16"> Devolver
+                                                        </a>
+                                                        <a href="<%= request.getContextPath() %>/emprestimo?acao=renovar&id=<%= e.getId() %>"
+                                                           class="win98-button" onclick="return confirm('Renovar empréstimo por +7 dias?');">
+                                                            <img src="<%= request.getContextPath() %>/view/assets/icons/clock-1.png" alt="Renovar" width="16" height="16"> Renovar
+                                                        </a>
+                                                    <% } else { %>
+                                                        <span class="text-muted">-</span>
+                                                    <% } %>
+                                                </td>
+                                            </tr>
+                                        <%
+                                                }
+                                            } else {
+                                        %>
+                                            <tr>
+                                                <td colspan="8" class="text-center">Nenhum empréstimo encontrado.</td>
+                                            </tr>
+                                        <%
+                                            }
+                                        %>
+                                    </tbody>
+                                </table>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-primary">
-                <tr>
-                    <th>ID</th>
-                    <th>ID Usuário</th>
-                    <th>ID Livro</th>
-                    <th>Data Empréstimo</th>
-                    <th>Devolução Prevista</th>
-                    <th>Devolução Real</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-            <%
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                List<Emprestimo> emprestimos = (List<Emprestimo>) request.getAttribute("emprestimos");
-                if (emprestimos != null && !emprestimos.isEmpty()) {
-                    for (Emprestimo e : emprestimos) {
-            %>
-                <tr>
-                    <td><%= e.getId() %></td>
-                    <td><%= e.getIdUsuario() %></td>
-                    <td><%= e.getIdLivro() %></td>
-                    <td><%= sdf.format(e.getDataEmprestimo()) %></td>
-                    <td><%= sdf.format(e.getDataDevolucaoPrevista()) %></td>
-                    <td><%= e.getDataDevolucaoReal() != null ? sdf.format(e.getDataDevolucaoReal()) : "-" %></td>
-                    <td><%= e.getStatus() %></td>
-                    <td>
-                        <% if ("ATIVO".equals(e.getStatus())) { %>
-                            <a href="<%= request.getContextPath() %>/emprestimo?acao=devolver&id=<%= e.getId() %>"
-                               class="btn btn-sm btn-success mb-1"
-                               onclick="return confirm('Confirmar devolução?');">
-                                <i class="fas fa-undo-alt"></i> Devolver
-                            </a>
-                            <a href="<%= request.getContextPath() %>/emprestimo?acao=renovar&id=<%= e.getId() %>"
-                               class="btn btn-sm btn-warning"
-                               onclick="return confirm('Renovar empréstimo por +7 dias?');">
-                                <i class="fas fa-clock"></i> Renovar
-                            </a>
-                        <% } else { %>
-                            <span class="text-muted">-</span>
-                        <% } %>
-                    </td>
-                </tr>
-            <%
-                    }
-                } else {
-            %>
-                <tr>
-                    <td colspan="8" class="text-center">Nenhum empréstimo encontrado.</td>
-                </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
+                                <div class="mt-4">
+                                    <a href="<%= request.getContextPath() %>/emprestimo?acao=novo" class="win98-button">
+                                        Registrar Novo Empréstimo
+                                    </a>
+                                </div>
+                            </div> <!-- icon-main -->
+                        </div> <!-- icon-layout -->
+                    </div> <!-- icon-inner-container -->
+                </div> <!-- icone-outer-container -->
+            </div> <!-- icon-wrap -->
+        </div> <!-- windows-explorer-content -->
+    </div> <!-- windows-explorer -->
+
+    <div id="doom-window" class="windows-explorer" style="display: none; margin-top: 20px;">
+        <header class="windows-header">
+            <span>DOOM 95</span>
+            <button class="windows-button" id="close-doom-btn" style="height: 16px; width: 16px; padding: 0; position: relative;">
+                <img src="<%= request.getContextPath() %>/view/assets/icons/close-icon.png" style="position: absolute; left: 1px; top: 0px;" alt="Fechar">
+            </button>
+        </header>
+        <div class="windows-explorer-content" style="padding: 10px;">
+            <div class="dosbox-container" id="doom-box"></div>
+        </div>
     </div>
 
-    <div class="mt-4">
-        <a class="btn btn-primary" href="<%= request.getContextPath() %>/emprestimo?acao=novo">
-            <i class="fas fa-plus"></i> Registrar Novo Empréstimo
+
+    <div class="start-bar">
+        <a href="<%= request.getContextPath() %>/index.html" title="Start Menu" class="button start-button-wrapper js-start-button">
+            <div class="start-button"></div>
         </a>
+        <span class="start-bar-window">
+            <div class="sprite gallery"></div>Lista de empréstimos
+        </span>
+        <span class="made-by">
+            Feito por <a href="https://alexmeub.com/about/" target="_blank">Vinicius Pedroza</a>
+        </span>
     </div>
 </div>
 
+    <div class="ui-desktop">
+        <div class="recycle-bin ui-icon">
+            <div class="ui-icon-container">
+                <img width="32" height="32" src="<%= request.getContextPath() %>/view/assets/icons/recycle_bin_empty-2.png" alt="">
+                <span style="color: white;">Recycle Bin</span>
+            </div>
+        </div>
+        <div class="doom ui-icon">
+            <div class="ui-icon-container">
+                <img width="32" height="32" src="<%= request.getContextPath() %>/view/assets/icons/doom95.png" alt="">
+                <span style="color: white;">DOOM 95</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://js-dos.com/cdn/js-dos-api.js"></script>
+    <script>
+        let dosboxInstance = null;
+        const doomIcon = document.querySelector(".doom");
+        const doomWindow = document.getElementById("doom-window");
+        const doomBox = document.getElementById("doom-box");
+        const closeDoomBtn = document.getElementById("close-doom-btn");
+
+        doomIcon.addEventListener("click", () => {
+            doomWindow.style.display = "block";
+            if (dosboxInstance !== null) return;
+            dosboxInstance = new Dosbox({
+            id: "doom-box",
+            onload: function (dosbox) {
+                dosbox.run("<%= request.getContextPath() %>/view/assets/game/DOOM-@evilution.zip", "DOOM/DOOM.EXE");
+            },
+            onrun: function (dosbox, app) {
+                console.log("DOOM started: " + app);
+            }
+            });
+        });
+        closeDoomBtn.addEventListener("click", () => {
+            doomWindow.style.display = "none";
+            if (dosboxInstance) {
+                dosboxInstance.stop();
+                dosboxInstance = null;
+            }
+            doomBox.innerHTML = "";
+        });
+
+    </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
