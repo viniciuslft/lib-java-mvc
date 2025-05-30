@@ -36,7 +36,7 @@ public class UsuarioServlet extends HttpServlet {
         try {
             UsuarioDAO dao = new UsuarioDAO();
             dao.cadastrar(usuario);
-            response.sendRedirect("view/usuario/sucesso.jsp");
+            response.sendRedirect("view/sucesso.jsp");
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("mensagemErro", "Erro ao cadastrar novo usuário.");

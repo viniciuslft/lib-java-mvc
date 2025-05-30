@@ -1,11 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="<%= request.getContextPath() %>/view/assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
-<div class="text-white p-3 mb-4 d-flex align-items-center justify-content-between" style="background: #164193;">
-    <a href="<%= request.getContextPath() %>/index.html" class="text-white text-decoration-none d-flex align-items-center gap-3">
-        <img src="<%= request.getContextPath() %>/view/assets/claretiano-logo.png" alt="Logo Claretiano" height="40">
-        <h4 class="m-0">Claretiano - Sistema de Biblioteca</h4>
-    </a>
+<div class="header-all text-white p-3 mb-4 d-flex align-items-center justify-content-between">
+    <div class="text-white text-decoration-none d-flex align-items-center gap-3">
+      
+        <img src="<%= request.getContextPath() %>/view/assets/img/teste.jpg" alt="Logo Claretiano" height="40">
+        <h4 class="glitch m-0" data-text="MVC">MVC</h4>
+    </div>
     <button class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal">
         <i class="fas fa-circle-info"></i>
     </button>
