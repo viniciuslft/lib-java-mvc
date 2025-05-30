@@ -105,7 +105,7 @@
             <div class="sprite gallery"></div>Cadastro de usuário
         </span>
         <span class="made-by">
-            Feito por <a href="https://alexmeub.com/about/" target="_blank">Vinicius Pedroza</a>
+            Feito por <a href="https://github.com/viniciuslft" target="_blank">Vinicius Pedroza</a>
         </span>
     </div>
 </div>
